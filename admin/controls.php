@@ -1,15 +1,15 @@
 <?php
 defined('ABSPATH') || exit;
 
-function shf_request($name, $default = null)
+function shaf_request($name, $default = null)
 {
     if (!isset($_REQUEST[$name])) {
         return $default;
     }
-    return stripslashes_deep($_REQUEST[$name]);
+    return stripslashes_deep(sanitize_text_field(wp_unslash($_REQUEST[$name])));
 }
 
-function shf_base_textarea_cm($name, $type = '', $tips = '')
+function shaf_base_textarea_cm($name, $type = '', $tips = '')
 {
     global $options;
 
@@ -25,8 +25,7 @@ function shf_base_textarea_cm($name, $type = '', $tips = '')
         $options[$name] = implode("\n", $options[$name]);
     }
 
-    echo '<textarea class="shf-cm' . esc_attr($type) . '" name="options[' . esc_attr($name) . ']" onfocus="shf_cm_on(this)">';
+    echo '<textarea class="shaf-cm' . esc_attr($type) . '" name="options[' . esc_attr($name) . ']" onfocus="shaf_cm_on(this)">';
     echo esc_html($options[$name]);
     echo '</textarea>';
-    echo '<p class="description">' . $tips . '</p>';
 }

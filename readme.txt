@@ -1,7 +1,7 @@
 === Simple Header and Footer ===
 Tags: header, footer, ads, analytics, facebook pixel, scripts
 Tested up to: 6.2.2
-Stable tag: 1
+Stable tag: 1.0.0
 Contributors: albertoreineri
 License: 			GPLv2 or later
 License URI: 		http://www.gnu.org/licenses/gpl-2.0.html

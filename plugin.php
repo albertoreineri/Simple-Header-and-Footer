@@ -31,11 +31,11 @@
 
 defined('ABSPATH') || exit;
 
-$shf_options = get_option('shf', []);
+$shaf_options = get_option('shaf', []);
 
-$shf_is_mobile = false;
-if (isset($_SERVER['HTTP_USER_AGENT']) && isset($shf_options['mobile_user_agents_parsed'])) {
-    $shf_is_mobile = preg_match('/' . $shf_options['mobile_user_agents_parsed'] . '/', strtolower($_SERVER['HTTP_USER_AGENT']));
+$shaf_is_mobile = false;
+if (isset($_SERVER['HTTP_USER_AGENT']) && isset($shaf_options['mobile_user_agents_parsed'])) {
+    $shaf_is_mobile = preg_match('/' . $shaf_options['mobile_user_agents_parsed'] . '/', sanitize_text_field(wp_unslash(strtolower($_SERVER['HTTP_USER_AGENT']))));
 }
 
 if (is_admin()) {
@@ -43,7 +43,7 @@ if (is_admin()) {
 }
 
 register_activation_hook(__FILE__, function () {
-    $options = get_option('shf');
+    $options = get_option('shaf');
     if (!is_array($options)) {
         $options = [];
     }
@@ -58,48 +58,48 @@ register_activation_hook(__FILE__, function () {
         $options['generic_' . $i] = '';
     }
     $options['updated'] = time(); // Force an update if the old options match (otherwise the autoload is not saved)
-    update_option('shf', $options, true);
+    update_option('shaf', $options, true);
 });
 
 register_deactivation_hook(__FILE__, function () {
-    $options = get_option('shf');
+    $options = get_option('shaf');
     if ($options) {
         $options['updated'] = time();
-        update_option('shf', $options, false);
+        update_option('shaf', $options, false);
     }
 });
 
-add_action('wp_head', 'shf_wp_head_post', 11);
-function shf_wp_head_post()
+add_action('wp_head', 'shaf_wp_head_post', 11);
+function shaf_wp_head_post()
 {
-    shf_execute_option('head', true);
+    shaf_execute_option('head', true);
 }
 
 
-add_action('wp_footer', 'shf_wp_footer');
-function shf_wp_footer()
+add_action('wp_footer', 'shaf_wp_footer');
+function shaf_wp_footer()
 {
-    shf_execute_option('footer', true);
+    shaf_execute_option('footer', true);
 }
 
-function shf_replace($buffer)
+function shaf_replace($buffer)
 {
-    global $shf_options, $post;
+    global $shaf_options, $post;
 
     for ($i = 1; $i <= 5; $i++) {
-        if (empty($shf_options['snippet_' . $i]))
+        if (empty($shaf_options['snippet_' . $i]))
             continue;
-        $buffer = str_replace('[snippet_' . $i . ']', $shf_options['snippet_' . $i], $buffer);
+        $buffer = str_replace('[snippet_' . $i . ']', $shaf_options['snippet_' . $i], $buffer);
     }
 
     return $buffer;
 }
 
-function shf_execute($buffer)
+function shaf_execute($buffer)
 {
-    global $shf_options, $post;
+    global $shaf_options, $post;
 
-    if (apply_filters('shf_php_exec', !empty($shf_options['enable_php']))) {
+    if (apply_filters('shaf_php_exec', !empty($shaf_options['enable_php']))) {
         ob_start();
         eval('?>' . $buffer);
         $buffer = ob_get_clean();
@@ -107,20 +107,20 @@ function shf_execute($buffer)
     return $buffer;
 }
 
-function shf_execute_option($key, $echo = false)
+function shaf_execute_option($key, $echo = false)
 {
-    global $shf_options, $wpdb, $post;
-    if (empty($shf_options[$key]))
+    global $shaf_options, $wpdb, $post;
+    if (empty($shaf_options[$key]))
         return '';
-    $buffer = shf_replace($shf_options[$key]);
+    $buffer = shaf_replace($shaf_options[$key]);
     if ($echo)
-        echo shf_execute($buffer);
+        echo esc_html(shaf_execute($buffer));
     else
-        return shf_execute($buffer);
+        return shaf_execute($buffer);
 }
 
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'shf_settings_link');
-function shf_settings_link(array $links)
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'shaf_settings_link');
+function shaf_settings_link(array $links)
 {
     $url = get_admin_url() . "options-general.php?page=simple-header-footer%2Fadmin%2Foptions.php";
     $settings_link = '<a href="' . $url . '">' . __('Settings', 'simple-header-footer') . '</a>';
