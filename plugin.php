@@ -7,7 +7,9 @@
   Version: 1.0.0
   Requires PHP: 7.4
   Author: Alberto Reineri
-  Author URI: https://albertoreineri.it
+  Author URI: https://albertoreineri.github.io
+  License: GPLv2 or later
+  License URI: https://www.gnu.org/licenses/gpl-2.0.html
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
  */
 
