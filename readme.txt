@@ -3,8 +3,8 @@ Tags: header, footer, ads, analytics, facebook pixel, scripts
 Tested up to: 6.4.2
 Stable tag: 1.0.0
 Contributors: albertoreineri
-License: 			GPLv2 or later
-License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Simple Header and Footer Plugin let you easily insert code in the header (between <head> and </head> tags) and in the footer (before the </body> tag). Ideal for inserting Analytics scripts or other tools easily and quickly.
 
